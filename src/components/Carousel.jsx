@@ -33,7 +33,6 @@ const Carousel = ({ imageUrls, title }) => {
 
   return (
     <div className="flex flex-col items-center">
-      {/* previous JSX returned by Carousel component as it is */}
       <div className="flex items-center">
         <Button
           className="shrink-0 focus-within:ring-0 hover:bg-transparent"

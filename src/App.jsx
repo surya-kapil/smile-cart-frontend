@@ -1,11 +1,25 @@
-import "./App.css";
-// eslint-disable-next-line import/extensions
-import Product from "./Product";
+import { NavLink, Route, Switch } from "react-router-dom";
+
+import Home from "./components/Home";
+import PageNotFound from "./components/PageNotFound";
+import Product from "./components/Product";
 
 const App = () => (
-  <div className="App">
-    <Product />
-  </div>
+  <>
+    <div className="flex space-x-2">
+      <NavLink exact activeClassName="underline font-bold" to="/">
+        Home
+      </NavLink>
+      <NavLink exact activeClassName="underline font-bold" to="/product">
+        Product
+      </NavLink>
+    </div>
+    <Switch>
+      <Route component={Product} path="/product" />
+      <Route component={Home} path="/home" />
+      <Route component={PageNotFound} path="*" />
+    </Switch>
+  </>
 );
 
 export default App;
