@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 
 import productsApi from "apis/products";
 import { Header, PageLoader } from "components/Commons/index";
+import { Search } from "neetoicons";
+import { Input, NoData } from "neetoui";
+import { isEmpty } from "ramda";
 
 import ProductListItem from "./ProductListItem";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchKey, setSearchKey] = useState(null);
   async function fetchProducts() {
     try {
-      const response = await productsApi.fetch();
+      const response = await productsApi.fetch({ searchTerm: searchKey });
       console.log(response);
       setProducts(response.products);
       setIsLoading(false);
@@ -21,7 +25,7 @@ const ProductList = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [searchKey]);
 
   if (isLoading) {
     return <PageLoader />;
@@ -30,13 +34,28 @@ const ProductList = () => {
   return (
     <div className="flex flex-col">
       <div className="m-2">
-        <Header shouldShowBackButton={false} title="Smile Cart" />
+        <Header
+          shouldShowBackButton={false}
+          title="Smile Cart"
+          actionBlock={
+            <Input
+              placeholder="Search products"
+              prefix={<Search />}
+              type="search"
+              onChange={event => setSearchKey(event.target.value)}
+            />
+          }
+        />
       </div>
-      <div className="grid grid-cols-2 justify-items-center gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
-        {products.map(product => (
-          <ProductListItem key={product.slug} {...product} />
-        ))}
-      </div>
+      {isEmpty(products) ? (
+        <NoData className="h-full w-full" title="No products to show" />
+      ) : (
+        <div className="grid grid-cols-2 justify-items-center gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
+          {products.map(product => (
+            <ProductListItem key={product.slug} {...product} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
