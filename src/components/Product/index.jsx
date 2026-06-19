@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
 
 import productsApi from "apis/products";
-import { Spinner, Typography } from "neetoui";
+import { Header, PageLoader, PageNotFound } from "components/Commons/index";
+import { Typography } from "neetoui";
 import { append } from "ramda";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import Carousel from "./Carousel";
 
 const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const { slug } = useParams();
+  const [isError, setIsError] = useState(false);
   // function waitNSec() {
   //   return new Promise(resolve => {
   //     setTimeout(resolve, 5000);
@@ -18,11 +22,11 @@ const Product = () => {
   async function fetchProduct() {
     try {
       // await waitNSec();
-      const response = await productsApi.show();
+      const response = await productsApi.show(slug);
       setProduct(response);
       console.log(response);
-    } catch (error) {
-      console.log("Error: ", error);
+    } catch {
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -33,12 +37,10 @@ const Product = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex h-screen w-full items-center justify-center">
-        <Spinner />
-      </div>
-    );
+    return <PageLoader />;
   }
+
+  if (isError) return <PageNotFound />;
 
   const { name, description, mrp, offerPrice, imageUrls, imageUrl } = product;
   const discountPrice = mrp - offerPrice;
@@ -47,9 +49,7 @@ const Product = () => {
   return (
     <div className="px-6 pb-6">
       <div>
-        <Typography className="py-2 text-4xl font-semibold" style="h1">
-          {name}
-        </Typography>
+        <Header shouldShowBackButton title={name} />
         <div className="mt-16 flex gap-4">
           <div className="w-2/5">
             <div className="flex justify-center gap-16">
