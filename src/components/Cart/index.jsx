@@ -14,11 +14,11 @@ import PriceCard from "./PriceCard";
 import ProductCard from "./ProductCard";
 
 const Cart = () => {
+  const { cartItems, setSelectedQuantity } = useCartItemsStore.pick();
   const slugs = useCartItemsStore(store => keys(store.cartItems), shallow);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { cartItems, setSelectedQuantity } = useCartItemsStore();
   const totalMrp = cartTotalOf(products, MRP);
   const totalOfferPrice = cartTotalOf(products, OFFER_PRICE);
 
