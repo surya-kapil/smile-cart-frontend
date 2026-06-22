@@ -7,6 +7,7 @@ import useCartItemsStore from "stores/useCartItemsStore";
 
 const PriceCard = ({ totalMrp, totalOfferPrice }) => {
   const { t } = useTranslation();
+  //console.log(t);
   const totalDiscounts = totalMrp - totalOfferPrice;
   const isDiscountPresent = gt(totalDiscounts, 0);
   const discountPercentage = ((totalDiscounts / totalMrp) * 100).toFixed(1);

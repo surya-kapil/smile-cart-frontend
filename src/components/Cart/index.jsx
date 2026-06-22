@@ -5,9 +5,11 @@ import { PageLoader } from "components/Commons";
 import Header from "components/Commons/Header";
 import { MRP, OFFER_PRICE } from "components/constants";
 import { cartTotalOf } from "components/utils";
+import i18n from "i18next";
 import { NoData, Toastr } from "neetoui";
 import { isEmpty, keys } from "ramda";
 import useCartItemsStore from "stores/useCartItemsStore";
+import withTitle from "utils/withTitle";
 import { shallow } from "zustand/shallow";
 
 import PriceCard from "./PriceCard";
@@ -86,5 +88,4 @@ const Cart = () => {
     </>
   );
 };
-
-export default Cart;
+export default withTitle(Cart, i18n.t("cart.title"));
