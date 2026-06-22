@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import productsApi from "apis/products";
+import AddToCart from "components/Commons/AddToCart";
 import { Header, PageLoader, PageNotFound } from "components/Commons/index";
 import { Typography } from "neetoui";
 import { append } from "ramda";
@@ -24,7 +25,7 @@ const Product = () => {
       // await waitNSec();
       const response = await productsApi.show(slug);
       setProduct(response);
-      console.log(response);
+      //console.log(response);
     } catch {
       setIsError(true);
     } finally {
@@ -42,7 +43,15 @@ const Product = () => {
 
   if (isError) return <PageNotFound />;
 
-  const { name, description, mrp, offerPrice, imageUrls, imageUrl } = product;
+  const {
+    name,
+    description,
+    mrp,
+    offerPrice,
+    imageUrls,
+    imageUrl,
+    availableQuantity,
+  } = product;
   const discountPrice = mrp - offerPrice;
   const discountPercentage = ((discountPrice / mrp) * 100).toFixed(1);
 
@@ -65,6 +74,7 @@ const Product = () => {
             <Typography className="font-semibold text-green-600">
               {discountPercentage}% off
             </Typography>
+            <AddToCart {...{ availableQuantity, slug }} />
           </div>
         </div>
       </div>
