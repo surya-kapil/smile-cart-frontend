@@ -3,6 +3,7 @@ import { useState } from "react";
 import { NavLink, Route, Switch, Redirect } from "react-router-dom";
 import routes from "routes";
 
+import Cart from "./components/Cart";
 import PageNotFound from "./components/Commons/PageNotFound";
 import Product from "./components/Product";
 import ProductList from "./components/ProductList";
@@ -26,6 +27,7 @@ const App = () => {
           <Route exact component={ProductList} path={routes.products.index} />
           <Route exact component={Product} path={routes.products.show} />
           <Redirect exact from={routes.root} to={routes.products.index} />
+          <Route exact component={Cart} path={routes.cart} />
           <Route component={PageNotFound} path="*" />
         </Switch>
       </CartItemsContext.Provider>
