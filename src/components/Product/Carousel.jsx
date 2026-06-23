@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import className from "classnames";
 import { useShowProduct } from "hooks/reactQuery/useProductsApi";
@@ -9,34 +9,26 @@ import { useParams } from "react-router-dom";
 
 const Carousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const timerRef = useRef(null);
   const slug = useParams();
   const { data: { imageUrl, imageUrls: partialImageUrls, title } = {} } =
     useShowProduct(slug);
   const imageUrls = append(imageUrl, partialImageUrls);
   const handlePrevious = () => {
-    resetTimer();
     setCurrentIndex(prev => (prev - 1 + imageUrls.length) % imageUrls.length);
-    console.log(imageUrls[currentIndex]);
-    console.log(currentIndex);
   };
 
   const handleNext = () => {
-    resetTimer();
     setCurrentIndex(prev => (prev + 1) % imageUrls.length);
     //console.log(currentIndex);
   };
 
-  function resetTimer() {
-    clearInterval(timerRef.current);
-    timerRef.current = setInterval(handleNext, 3000);
-  }
-
   useEffect(() => {
-    timerRef.current = setInterval(handleNext, 3000);
+    const timer = setInterval(() => {
+      setCurrentIndex(prev => (prev + 1) % imageUrls.length);
+    }, 3000);
 
-    return () => clearInterval(timerRef.current);
-  }, []);
+    return () => clearInterval(timer);
+  }, [imageUrls.length]);
 
   return (
     <div className="flex flex-col items-center">
