@@ -21,6 +21,8 @@ const Checkout = () => {
     history.goBack();
   };
 
+  console.log("Here Hi");
+
   if (isLoading) return <PageLoader />;
 
   return (

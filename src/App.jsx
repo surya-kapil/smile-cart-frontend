@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import Checkout from "components/Checkout";
 import { NavLink, Route, Switch, Redirect } from "react-router-dom";
 import routes from "routes";
 
@@ -11,6 +12,7 @@ import CartItemsContext from "./contexts/CartItemsContext";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
+  console.log(Checkout);
 
   return (
     <>
@@ -28,6 +30,7 @@ const App = () => {
           <Route exact component={Product} path={routes.products.show} />
           <Redirect exact from={routes.root} to={routes.products.index} />
           <Route exact component={Cart} path={routes.cart} />
+          <Route exact component={Checkout} path={routes.checkout} />
           <Route component={PageNotFound} path="*" />
         </Switch>
       </CartItemsContext.Provider>
