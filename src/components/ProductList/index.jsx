@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 
 import { Header, PageLoader } from "components/Commons/index";
 import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "components/constants";
@@ -92,4 +92,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default memo(ProductList);
